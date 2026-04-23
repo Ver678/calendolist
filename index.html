@@ -7,12 +7,43 @@
   <title>Moj Kalendar</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="theme-roza">
   <div class="app">
-
     <header class="app-header">
-      <h1>🌸 Moj Kalendar</h1>
+      <div class="header-left">
+        <h1>🌸 Moj Kalendar</h1>
+
+        <div class="global-search">
+          <input
+            type="text"
+            id="globalSearchInput"
+            class="global-search-input"
+            placeholder="Pretraži sve zadatke..."
+            aria-label="Pretraži sve zadatke"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <button
+        class="settings-btn"
+        id="openSettingsBtn"
+        type="button"
+        aria-label="Otvori postavke"
+      >
+        ⚙️
+      </button>
     </header>
+
+    <section class="weekly-section">
+      <div class="section-top">
+        <h2>Ovaj tjedan</h2>
+        <p id="weeklySummary">0 zadataka</p>
+      </div>
+      <div class="weekly-list" id="weeklyList">
+        <p class="empty-message small-empty">Nema zadataka za ovaj tjedan.</p>
+      </div>
+    </section>
 
     <section class="calendar-section">
       <div class="calendar-top">
@@ -22,8 +53,13 @@
       </div>
 
       <div class="weekdays" role="row">
-        <div>Pon</div><div>Uto</div><div>Sri</div>
-        <div>Čet</div><div>Pet</div><div>Sub</div><div>Ned</div>
+        <div>Pon</div>
+        <div>Uto</div>
+        <div>Sri</div>
+        <div>Čet</div>
+        <div>Pet</div>
+        <div>Sub</div>
+        <div>Ned</div>
       </div>
 
       <div class="calendar-days" id="calendarDays"></div>
@@ -39,20 +75,44 @@
         </div>
       </div>
 
+      <div class="filters-row">
+        <div class="type-filters" id="typeFilters">
+          <button class="filter-btn active" data-filter="sve" type="button">Sve</button>
+          <button class="filter-btn" data-filter="obaveza" type="button">📌</button>
+          <button class="filter-btn" data-filter="ispit" type="button">📋</button>
+          <button class="filter-btn" data-filter="prijatelji" type="button">🧑‍🤝‍🧑</button>
+          <button class="filter-btn" data-filter="ostalo" type="button">🌸</button>
+        </div>
+      </div>
 
       <div class="progress-wrap" id="progressWrap" style="display:none">
         <div class="progress-bar" id="progressBar"></div>
         <span class="progress-label" id="progressLabel">0 / 0</span>
       </div>
 
-      <div class="task-list" id="taskList">
-        <p class="empty-message">Nema zadataka za ovaj dan.</p>
+      <div class="task-section-block">
+        <div class="task-section-header">
+          <h3>Aktivni</h3>
+          <span id="activeCount">0</span>
+        </div>
+        <div class="task-list" id="activeTaskList">
+          <p class="empty-message">Nema aktivnih zadataka za ovaj dan.</p>
+        </div>
+      </div>
+
+      <div class="task-section-block completed-block">
+        <div class="task-section-header">
+          <h3>Završeni</h3>
+          <span id="completedCount">0</span>
+        </div>
+        <div class="task-list completed-list" id="completedTaskList">
+          <p class="empty-message">Nema završenih zadataka za ovaj dan.</p>
+        </div>
       </div>
 
       <button class="add-task-btn" id="openModal" type="button" aria-label="Dodaj zadatak">+</button>
     </section>
 
- 
     <div class="modal hidden" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-content">
         <div class="modal-header">
@@ -68,20 +128,174 @@
           autocomplete="off"
         />
 
-        <!-- Prioritet -->
+        <div class="form-grid">
+          <div class="field-wrap">
+            <label for="taskDateInput">Datum</label>
+            <input type="date" id="taskDateInput" />
+          </div>
+
+          <div class="field-wrap">
+            <label for="taskTimeInput">Vrijeme</label>
+            <input type="time" id="taskTimeInput" />
+          </div>
+        </div>
+
+        <div class="task-type-select">
+          <button class="task-type-btn active" data-type="obaveza" type="button">📌 Obaveza</button>
+          <button class="task-type-btn" data-type="ispit" type="button">📋 Ispit</button>
+          <button class="task-type-btn" data-type="prijatelji" type="button">🧑‍🤝‍🧑 Prijatelji</button>
+          <button class="task-type-btn" data-type="ostalo" type="button">🌸 Ostalo</button>
+        </div>
+
         <div class="priority-select">
           <button class="priority-btn active" data-priority="low" type="button">🟢 Nisko</button>
           <button class="priority-btn" data-priority="medium" type="button">🟡 Srednje</button>
           <button class="priority-btn" data-priority="high" type="button">🔴 Hitno</button>
         </div>
 
-        <button class="submit-task-btn" id="addTaskBtn" type="button">Dodaj zadatak</button>
+        <div class="form-grid">
+          <div class="field-wrap">
+            <label for="taskReminderSelect">Podsjetnik</label>
+            <select id="taskReminderSelect">
+              <option value="none">Bez podsjetnika</option>
+              <option value="at-time">U vrijeme događaja</option>
+              <option value="10m">10 min prije</option>
+              <option value="30m">30 min prije</option>
+              <option value="1h">1 sat prije</option>
+              <option value="1d">1 dan prije</option>
+            </select>
+          </div>
+
+          <div class="field-wrap">
+            <label for="taskRecurrenceSelect">Ponavljanje</label>
+            <select id="taskRecurrenceSelect">
+              <option value="none">Ne ponavlja se</option>
+              <option value="daily">Svaki dan</option>
+              <option value="weekly">Svaki tjedan</option>
+              <option value="monthly">Svaki mjesec</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="secondary-btn hidden" id="deleteTaskBtn" type="button">Obriši</button>
+          <button class="submit-task-btn" id="saveTaskBtn" type="button">Spremi zadatak</button>
+        </div>
       </div>
     </div>
 
-    <!-- Toast notifikacija -->
-    <div class="toast hidden" id="toast"></div>
+    <div class="global-search-results hidden" id="globalSearchResults" role="dialog" aria-modal="true" aria-labelledby="searchResultsTitle">
+      <div class="search-results-content">
+        <div class="search-results-header">
+          <h3 id="searchResultsTitle">Rezultati pretrage</h3>
+          <button class="close-search-btn" id="closeSearchResults" type="button" aria-label="Zatvori rezultate">&times;</button>
+        </div>
 
+        <div class="search-results-list" id="searchResultsList">
+          <div class="search-results-empty">Upiši pojam za pretragu.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-modal hidden" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="settings-modal-content">
+        <div class="settings-header">
+          <h2 id="settingsTitle">Postavke</h2>
+          <button class="close-btn" id="closeSettingsBtn" type="button" aria-label="Zatvori postavke">&times;</button>
+        </div>
+
+        <div class="settings-section">
+          <h3>Boja teme</h3>
+          <div class="settings-theme-grid">
+            <button class="settings-theme-btn active" data-theme="theme-roza" type="button" style="background: linear-gradient(135deg, #ec4899, #f472b6);">🌷</button>
+            <button class="settings-theme-btn" data-theme="theme-plava" type="button" style="background: linear-gradient(135deg, #3b82f6, #60a5fa);">🌀</button>
+            <button class="settings-theme-btn" data-theme="theme-ljubicasta" type="button" style="background: linear-gradient(135deg, #a855f7, #c084fc);">🪻</button>
+            <button class="settings-theme-btn" data-theme="theme-zelena" type="button" style="background: linear-gradient(135deg, #22c55e, #4ade80);">🍀</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Prikaz</h3>
+          <label class="settings-toggle">
+            <input type="checkbox" id="darkModeToggle" />
+            <span>Uključi dark mode</span>
+          </label>
+        </div>
+
+        <div class="settings-section">
+          <h3>Podsjetnici</h3>
+          <button class="secondary-btn full-btn" id="enableNotificationsBtn" type="button">Uključi dozvolu za notifikacije</button>
+          <p class="small-note">Podsjetnici rade u pregledniku dok je aplikacija otvorena.</p>
+        </div>
+
+        <div class="settings-section">
+          <h3>Podaci</h3>
+          <button class="settings-btn-danger" id="clearAllTasksBtn" type="button">Obriši sve zadatke</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="theme-modal hidden" id="themeModal" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle">
+      <div class="theme-modal-content">
+        <h2 id="themeModalTitle">Odaberite svoju najdražu temu!</h2>
+
+        <div class="theme-grid">
+          <button class="theme-preview-card" data-theme="theme-roza" type="button">
+            <div class="theme-preview-box theme-roza-preview">
+              <div class="theme-preview-title">kalendar</div>
+              <div class="mini-dots">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="theme-preview-footer"></div>
+            </div>
+            <span>Roza</span>
+          </button>
+
+          <button class="theme-preview-card" data-theme="theme-ljubicasta" type="button">
+            <div class="theme-preview-box theme-ljubicasta-preview">
+              <div class="theme-preview-title">kalendar</div>
+              <div class="mini-dots">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="theme-preview-footer"></div>
+            </div>
+            <span>Ljubičasta</span>
+          </button>
+
+          <button class="theme-preview-card" data-theme="theme-zelena" type="button">
+            <div class="theme-preview-box theme-zelena-preview">
+              <div class="theme-preview-title">kalendar</div>
+              <div class="mini-dots">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="theme-preview-footer"></div>
+            </div>
+            <span>Zelena</span>
+          </button>
+
+          <button class="theme-preview-card" data-theme="theme-plava" type="button">
+            <div class="theme-preview-box theme-plava-preview">
+              <div class="theme-preview-title">kalendar</div>
+              <div class="mini-dots">
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="theme-preview-footer"></div>
+            </div>
+            <span>Plava</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast hidden" id="toast"></div>
   </div>
 
   <noscript>Ova aplikacija zahtijeva JavaScript za rad.</noscript>
