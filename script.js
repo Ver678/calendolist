@@ -854,7 +854,33 @@ function maybeSendReminders() {
 }
 
 function shouldShowThemeModal() {
-  return localStorage.getItem("themeSelected") !== "true";
+  return localStorage.getItem("themeSelected") !== "false";
+}
+
+function populateThemeModalMonths() {
+  const now = new Date();
+  const m = now.getMonth();
+  const y = now.getFullYear();
+
+  const prevM = m === 0 ? 11 : m - 1;
+  const nextM = m === 11 ? 0 : m + 1;
+
+  // Kratice za krugove (3 slova)
+  const short = monthNames.map(n => n.slice(0, 3));
+
+  const elPrev = document.getElementById("themeMonthPrev");
+  const elCur  = document.getElementById("themeMonthCurrent");
+  const elNext = document.getElementById("themeMonthNext");
+  if (elPrev) elPrev.textContent = short[prevM];
+  if (elCur)  elCur.textContent  = short[m];
+  if (elNext) elNext.textContent = short[nextM];
+
+  // Puni naziv u preview karticama
+  const curFull = monthNames[m];
+  ["tpMonthRoza","tpMonthLjubicasta","tpMonthZelena","tpMonthPlava"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = curFull;
+  });
 }
 
 function closeThemeModal() {
@@ -996,6 +1022,7 @@ taskDateInput.value = formatDateInputValue(selectedDate);
 renderEverything();
 
 if (shouldShowThemeModal()) {
+  populateThemeModalMonths();
   themeModal.classList.remove("hidden");
 } else {
   themeModal.classList.add("hidden");

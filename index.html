@@ -237,60 +237,86 @@
 
     <div class="theme-modal hidden" id="themeModal" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle">
       <div class="theme-modal-content">
-        <h2 id="themeModalTitle">Odaberite svoju najdražu temu!</h2>
+
+        <!-- 3 kruga gore: prethodni, trenutni, sljedeći mjesec -->
+        <div class="tmi-row">
+          <span class="tmi-dot tmi-prev" id="themeMonthPrev"></span>
+          <span class="tmi-dot tmi-current" id="themeMonthCurrent"></span>
+          <span class="tmi-dot tmi-next" id="themeMonthNext"></span>
+        </div>
+
+        <h2 id="themeModalTitle">odaberite svoju<br>najdražu temu!</h2>
 
         <div class="theme-grid">
+
           <button class="theme-preview-card" data-theme="theme-roza" type="button">
             <div class="theme-preview-box theme-roza-preview">
-              <div class="theme-preview-title">kalendar</div>
-              <div class="mini-dots">
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
+              <div class="tpb-header">
+                <span class="tpb-month" id="tpMonthRoza"></span>
+                <span class="tpb-dots-mini"><span></span><span></span><span></span></span>
               </div>
-              <div class="theme-preview-footer"></div>
+              <div class="tpb-calendar">
+                <div class="tpb-row"><span></span><span></span><span class="tpb-today"></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              </div>
+              <div class="tpb-footer"></div>
             </div>
-            <span>Roza</span>
+            <span>🌸 Roza</span>
           </button>
 
           <button class="theme-preview-card" data-theme="theme-ljubicasta" type="button">
             <div class="theme-preview-box theme-ljubicasta-preview">
-              <div class="theme-preview-title">kalendar</div>
-              <div class="mini-dots">
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
+              <div class="tpb-header">
+                <span class="tpb-month" id="tpMonthLjubicasta"></span>
+                <span class="tpb-dots-mini"><span></span><span></span><span></span></span>
               </div>
-              <div class="theme-preview-footer"></div>
+              <div class="tpb-calendar">
+                <div class="tpb-row"><span></span><span></span><span class="tpb-today"></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              </div>
+              <div class="tpb-footer"></div>
             </div>
-            <span>Ljubičasta</span>
+            <span>🪻 Ljubičasta</span>
           </button>
 
           <button class="theme-preview-card" data-theme="theme-zelena" type="button">
             <div class="theme-preview-box theme-zelena-preview">
-              <div class="theme-preview-title">kalendar</div>
-              <div class="mini-dots">
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
+              <div class="tpb-header">
+                <span class="tpb-month" id="tpMonthZelena"></span>
+                <span class="tpb-dots-mini"><span></span><span></span><span></span></span>
               </div>
-              <div class="theme-preview-footer"></div>
+              <div class="tpb-calendar">
+                <div class="tpb-row"><span></span><span></span><span class="tpb-today"></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              </div>
+              <div class="tpb-footer"></div>
             </div>
-            <span>Zelena</span>
+            <span>🍀 Zelena</span>
           </button>
 
           <button class="theme-preview-card" data-theme="theme-plava" type="button">
             <div class="theme-preview-box theme-plava-preview">
-              <div class="theme-preview-title">kalendar</div>
-              <div class="mini-dots">
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
-                <span></span><span></span><span></span><span></span><span></span>
+              <div class="tpb-header">
+                <span class="tpb-month" id="tpMonthPlava"></span>
+                <span class="tpb-dots-mini"><span></span><span></span><span></span></span>
               </div>
-              <div class="theme-preview-footer"></div>
+              <div class="tpb-calendar">
+                <div class="tpb-row"><span></span><span></span><span class="tpb-today"></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="tpb-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              </div>
+              <div class="tpb-footer"></div>
             </div>
-            <span>Plava</span>
+            <span>🌀 Plava</span>
           </button>
+
         </div>
       </div>
     </div>
